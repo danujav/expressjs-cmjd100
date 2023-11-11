@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 
@@ -14,3 +15,9 @@ app.use('/api/items', item)
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+mongoose.connect('mongodb+srv://danu:1234@cluster0.5z3xetx.mongodb.net/kade?retryWrites=true&w=majority')
+.then(() => {
+    console.log('Connected to MongoDB...');
+})
+.catch(err => console.error(err.message));
