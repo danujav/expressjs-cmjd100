@@ -4,8 +4,18 @@ const Customer = require('../model/customerModel');
 
 // app.use(express.json());
 
-router.get('/', (req, res) => {
-    res.send('Customers API just called!');
+router.get('/', async(req, res) => {
+    try {
+        const customers = await Customer.find({})
+        res.status(200).json({
+            success: true,
+            data: customers
+        })
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+    const customers = Customer.find({});
+
 });
 
 router.get('/:id', (req, res) => {
