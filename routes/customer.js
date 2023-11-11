@@ -18,8 +18,18 @@ router.get('/', async(req, res) => {
 
 });
 
-router.get('/:id', (req, res) => {
-    res.send(`Customer with id ${req.params.id} just called!`);
+router.get('/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const customer = await Customer.findById(id);
+
+        res.status(200).json({
+            success: true,
+            data: customer
+        });
+    } catch(e) {
+        res.status(500).jso({message: e.message});
+    }
 });
 
 router.post('/', async (req, res) => {
