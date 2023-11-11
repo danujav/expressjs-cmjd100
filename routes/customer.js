@@ -45,8 +45,22 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', (req, res) => {
-    res.send(req.body);
+router.put('/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const customer = await Customer.findByIdAndUpdate(id, req.body);
+
+        if(!customer) {
+            return res.status(404).json({
+                success: false,
+                message: 'Customer not found'
+            });
+        }
+        return res.status(200).json(customer);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+
 });
 
 router.delete('/:id', (req, res) => {
