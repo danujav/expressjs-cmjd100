@@ -5,7 +5,7 @@
 1. Clone your repository to your local machine.
 
 ```bash
-git clone https://github.com/danujav/expressjs-cmjd100.git``
+git clone https://github.com/danujav/expressjs-cmjd100.git
 ```
 
 2. Install dependencies.
