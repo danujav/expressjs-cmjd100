@@ -1,83 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const Customer = require('../model/customerModel');
 
-// app.use(express.json());
+const cusController = require('../controller/customerController');
+const Customer = require("../model/customerModel");
 
-router.get('/', async(req, res) => {
-    try {
-        const customers = await Customer.find({})
-        res.status(200).json({
-            success: true,
-            data: customers
-        })
-    } catch (error) {
-        res.status(500).send({message: error.message});
-    }
-    const customers = Customer.find({});
+router.get("/", cusController.getAll);
 
-});
+router.get('/:id', cusController.getById);
 
-router.get('/:id', async(req, res) => {
-    try {
-        const {id} = req.params;
-        const customer = await Customer.findById(id);
+router.post('/', cusController.create);
 
-        res.status(200).json({
-            success: true,
-            data: customer
-        });
-    } catch(e) {
-        res.status(500).jso({message: e.message});
-    }
-});
+router.put('/:id', cusController.update);
 
-router.post('/', async (req, res) => {
-    try {
-        const customer = await Customer.create(req.body);
-        res.status(201).json({
-            success: true,
-            data: customer
-        });
-    } catch (error) {
-        console.log(error.message)
-        res.status(500).send(error.message);
-    }
-});
-
-router.put('/:id', async(req, res) => {
-    try {
-        const {id} = req.params;
-        const customer = await Customer.findByIdAndUpdate(id, req.body);
-
-        if(!customer) {
-            return res.status(404).json({
-                success: false,
-                message: 'Customer not found'
-            });
-        }
-        return res.status(200).json(customer);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-
-});
-
-router.delete('/:id', async (req, res) => {
-    try {
-        const {id} = req.params;
-
-        const customer = await Customer.findByIdAndDelete(id);
-        if(!customer) {
-            return res.status(404).json({
-                success: false,
-                message: `Customer with id ${id} not found`
-            });
-        }
-        return res.status(200).json(customer);
-    } catch(error) {
-        res.status(500).json({message: error.message});
-    }
-});
+router.delete('/:id', cusController.delete);
 
 module.exports = router;
